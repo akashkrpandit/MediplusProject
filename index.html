@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+
+        <h1>weather app</h1>
+        <div class="inp">
+            <form action="" id="form">
+
+                <input type="text" name="" id="search" placeholder="check city.....">
+            </form>
+        </div>
+
+        <div class="p">
+            <div class="img">
+                <img src="" alt="weather" id="img">
+            </div>
+            <h1 id="degree">32 C</h1>
+        </div>
+
+        <div class="box2">
+            <p id="cloud">clear</p>
+        </div>
+
+
+
+    </div>
+</body>
+<script>
+    let form = document.querySelector('#form');
+    let search = document.querySelector('#search');
+    let img = document.querySelector('#img');
+    let degree = document.querySelector('#degree');
+    let cloud = document.querySelector('#cloud');
+
+
+    const fetchVal = async (city) =>
+    {
+        let apiKey = "5c841fb846c046349d814028242906"
+        let url = await fetch(`https://api.weatherapi.com/v1/current.json?key=${ apiKey }&q=${ city }&aqi=no`)
+
+        let convert = await url.json();
+        if (convert)
+        {
+            console.log(convert);
+            show_weather(convert.current.condition.icon);
+
+        } else
+        {
+            console.log("have some error");
+        }
+        // console.log(city);
+    }
+
+    const show_weather = (weather) =>
+    {
+        img.src = `${ weather }`
+    }
+
+
+
+
+    form.addEventListener('submit',
+        (event) =>
+        {
+            event.preventDefault();
+            fetchVal(search.value)
+            console.log(search.value);
+
+        })
+
+
+    //     const fetchVal = async (city) => {
+    //     try {
+    //         let url = await fetch(`http://api.weatherapi.com/v1/current.json?key=5c841fb846c046349d814028242906&q=${city}`);
+    //         if (!url.ok) {
+    //             throw new Error('Weather API request failed');
+    //         }
+
+    //         let data = await url.json();
+    //         if (data && data.current) {
+    //             console.log(data); // For debugging
+    //             updateWeather(data.current);
+    //         } else {
+    //             console.log("Invalid data received from API");
+    //         }
+    //     } catch (error) {
+    //         console.error('Error fetching data:', error);
+    //     }
+    // }
+
+    // const updateWeather = (weatherData) => {
+    //     // Update temperature
+    //     degree.textContent = `${weatherData.temp_c} °C`;
+
+    //     // Update weather condition text
+    //     cloud.textContent = weatherData.condition.text;
+
+    //     // Update weather icon
+    //     show_weather(weatherData.condition.icon);
+    // }
+
+    // const show_weather = (weatherIconUrl) => {
+    //     img.src = weatherIconUrl;
+    // }
+
+    // form.addEventListener('submit', (event) => {
+    //     event.preventDefault();
+    //     fetchVal(search.value);
+    // });
+
+</script>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background-color: black;
+        color: white;
+    }
+
+    .container {
+        width: 20%;
+        border: 2px solid orange;
+        margin: 0 auto;
+        text-align: center;
+        padding: 13px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin-top: 100px;
+        text-transform: capitalize;
+        border-radius: 20px;
+
+    }
+
+    .p {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .inp {
+
+        & input {
+            width: 80%;
+            padding: 5px;
+            border-radius: 10px;
+
+        }
+    }
+</style>
+
+</html>
